@@ -211,10 +211,10 @@ public class GitHubApi : IGitHubApi
                         totalCount
                         nodes {{
                             owner {{
-                              login
-                              avatarUrl
-                              url
-                              __typename
+                                login
+                                avatarUrl
+                                url
+                                __typename
                             }}
                         }}
                     }}
