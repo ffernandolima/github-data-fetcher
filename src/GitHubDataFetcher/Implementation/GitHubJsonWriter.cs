@@ -8,20 +8,25 @@ using System.Threading.Tasks;
 
 namespace GitHubDataFetcher.Implementation;
 
-public class GitHubJsonWriter(
-    ILogger<GitHubJsonWriter> logger,
-    IConfiguration configuration,
-    IGitHubApi githubApi) : IGitHubJsonWriter
+public class GitHubJsonWriter : IGitHubJsonWriter
 {
-    private readonly ILogger<GitHubJsonWriter> _logger = logger;
-    private readonly IGitHubApi _githubApi = githubApi;
-    private readonly string _outputPath = configuration["OUTPUT_PATH"]!;
-    private readonly JsonSerializerOptions _jsonOptions = new()
+    private readonly ILogger<GitHubJsonWriter> _logger;
+    private readonly IGitHubApi _githubApi;
+    private readonly string _outputPath;
+    private readonly JsonSerializerOptions _jsonOptions;
+
+    public GitHubJsonWriter(ILogger<GitHubJsonWriter> logger, IConfiguration configuration, IGitHubApi githubApi)
     {
-        WriteIndented = true,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-    };
+        _logger = logger;
+        _githubApi = githubApi;
+        _outputPath = configuration["OUTPUT_PATH"]!;
+        _jsonOptions = new()
+        {
+            WriteIndented = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        };
+    }
 
     private async Task SaveJsonAsync(string fileName, object content)
     {
