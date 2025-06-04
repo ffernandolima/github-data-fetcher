@@ -102,7 +102,7 @@ public class GitHubApi : IGitHubApi
                     {
                         AvatarUrl = node.GetProperty("baseRepository").GetProperty("owner").GetProperty("avatarUrl").GetString()!,
                         Login = node.GetProperty("baseRepository").GetProperty("owner").GetProperty("login").GetString()!,
-                        Url = node.GetProperty("baseRepository").GetProperty("owner").GetProperty("url").GetString()!,
+                        Url = node.GetProperty("baseRepository").GetProperty("owner").GetProperty("url").GetString()!
                     }
                 }
             })];
@@ -179,7 +179,7 @@ public class GitHubApi : IGitHubApi
                     {
                         AvatarUrl = node.GetProperty("repository").GetProperty("owner").GetProperty("avatarUrl").GetString()!,
                         Login = node.GetProperty("repository").GetProperty("owner").GetProperty("login").GetString()!,
-                        Url = node.GetProperty("repository").GetProperty("owner").GetProperty("url").GetString()!,
+                        Url = node.GetProperty("repository").GetProperty("owner").GetProperty("url").GetString()!
                     }
                 }
             })];
