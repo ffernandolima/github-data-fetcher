@@ -5,5 +5,7 @@
 /.vs
 /src/GitHubDataFetcher/bin
 /src/GitHubDataFetcher/obj
+/tests/GitHubDataFetcher.UnitTests/bin
+/tests/GitHubDataFetcher.UnitTests/obj
 /tests/GitHubDataFetcher.IntegrationTests/bin
 /tests/GitHubDataFetcher.IntegrationTests/obj
