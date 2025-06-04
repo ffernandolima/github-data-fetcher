@@ -1,4 +1,5 @@
 ﻿using GitHubDataFetcher.Abstractions;
+using GitHubDataFetcher.Extensions;
 using GitHubDataFetcher.Models;
 using GitHubDataFetcher.Models.Responses;
 using Microsoft.Extensions.Configuration;
@@ -86,7 +87,7 @@ public class GitHubApi : IGitHubApi
                 ChangedFiles = node.GetProperty("changedFiles").GetInt32(),
                 Additions = node.GetProperty("additions").GetInt32(),
                 Deletions = node.GetProperty("deletions").GetInt32(),
-                MergedBy = node.TryGetProperty("mergedBy", out var mergedBy) && mergedBy.ValueKind == JsonValueKind.Object
+                MergedBy = node.TryGetObject("mergedBy", out var mergedBy)
                     ? new User
                     {
                         AvatarUrl = mergedBy.GetProperty("avatarUrl").GetString()!,
@@ -94,17 +95,21 @@ public class GitHubApi : IGitHubApi
                         Url = mergedBy.GetProperty("url").GetString()!
                     }
                     : null,
-                BaseRepository = new BaseRepository
-                {
-                    Name = node.GetProperty("baseRepository").GetProperty("name").GetString()!,
-                    Url = node.GetProperty("baseRepository").GetProperty("url").GetString()!,
-                    Owner = new User
+                BaseRepository = node.TryGetObject("baseRepository", out var repository)
+                    ? new BaseRepository
                     {
-                        AvatarUrl = node.GetProperty("baseRepository").GetProperty("owner").GetProperty("avatarUrl").GetString()!,
-                        Login = node.GetProperty("baseRepository").GetProperty("owner").GetProperty("login").GetString()!,
-                        Url = node.GetProperty("baseRepository").GetProperty("owner").GetProperty("url").GetString()!
+                        Name = repository.GetProperty("name").GetString()!,
+                        Url = repository.GetProperty("url").GetString()!,
+                        Owner =  repository.TryGetObject("owner", out var owner)
+                            ? new User
+                            {
+                                AvatarUrl = owner.GetProperty("avatarUrl").GetString()!,
+                                Login = owner.GetProperty("login").GetString()!,
+                                Url = owner.GetProperty("url").GetString()!
+                            }
+                            : null
                     }
-                }
+                    : null
             })];
 
         return new PullRequestStats
@@ -171,17 +176,21 @@ public class GitHubApi : IGitHubApi
                         Url = node.GetProperty("url").GetString()!,
                         Name = node.TryGetProperty("name", out var name) ? name.GetString() ?? string.Empty : string.Empty
                     })],
-                Repository = new Repository
-                {
-                    Name = node.GetProperty("repository").GetProperty("name").GetString()!,
-                    Url = node.GetProperty("repository").GetProperty("url").GetString()!,
-                    Owner = new User
+                Repository = node.TryGetObject("repository", out var repository)
+                    ? new Repository
                     {
-                        AvatarUrl = node.GetProperty("repository").GetProperty("owner").GetProperty("avatarUrl").GetString()!,
-                        Login = node.GetProperty("repository").GetProperty("owner").GetProperty("login").GetString()!,
-                        Url = node.GetProperty("repository").GetProperty("owner").GetProperty("url").GetString()!
+                        Name = repository.GetProperty("name").GetString()!,
+                        Url = repository.GetProperty("url").GetString()!,
+                        Owner = repository.TryGetObject("owner", out var owner)
+                            ? new User
+                            {
+                                AvatarUrl = owner.GetProperty("avatarUrl").GetString()!,
+                                Login = owner.GetProperty("login").GetString()!,
+                                Url = owner.GetProperty("url").GetString()!
+                            }
+                            : null
                     }
-                }
+                    : null
             })];
 
         return new IssueStats

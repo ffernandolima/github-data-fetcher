@@ -11,6 +11,20 @@ public class Program
 {
     public static async Task Main(string[] _)
     {
+        var services = ConfigureServices();
+
+        using var provider = services.BuildServiceProvider();
+
+        var writer = provider.GetRequiredService<IGitHubJsonWriter>();
+
+        await writer.GeneratePullRequestsAsync();
+        await writer.GenerateIssuesAsync();
+        await writer.GenerateOrganizationsAsync();
+        await writer.GeneratePinnedProjectsAsync();
+    }
+
+    private static IServiceCollection ConfigureServices()
+    {
         IConfiguration configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables()
@@ -18,18 +32,12 @@ public class Program
 
         var services = new ServiceCollection();
 
-        services.AddSingleton<IConfiguration>(configuration);
+        services.AddHttpClient();
         services.AddLogging(builder => builder.AddConsole());
+        services.AddSingleton<IConfiguration>(configuration);
         services.AddSingleton<IGitHubApi, GitHubApi>();
         services.AddSingleton<IGitHubJsonWriter, GitHubJsonWriter>();
-        services.AddHttpClient();
 
-        var provider = services.BuildServiceProvider();
-        var writer = provider.GetRequiredService<IGitHubJsonWriter>();
-
-        await writer.GeneratePullRequestsAsync();
-        await writer.GenerateIssuesAsync();
-        await writer.GenerateOrganizationsAsync();
-        await writer.GeneratePinnedProjectsAsync();
+        return services;
     }
 }
