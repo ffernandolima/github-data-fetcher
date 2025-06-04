@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GitHubDataFetcher.Implementation;
+namespace GitHubDataFetcher.Mappers;
 
 public static class LanguageIconMapper
 {
@@ -20,8 +20,8 @@ public static class LanguageIconMapper
         { "Rust",             "logos-rust"          }
     };
 
-    public static string GetIconifyClass(string languageName)
-        => Mappings.TryGetValue(languageName, out var icon)
-            ? icon
+    public static string GetIconifyIdentifier(string languageName)
+        => Mappings.TryGetValue(languageName, out var iconifyIdentifier)
+            ? iconifyIdentifier
             : string.Empty;
 }

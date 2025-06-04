@@ -1,5 +1,6 @@
 ﻿using GitHubDataFetcher.Abstractions;
 using GitHubDataFetcher.Extensions;
+using GitHubDataFetcher.Mappers;
 using GitHubDataFetcher.Models;
 using GitHubDataFetcher.Models.Responses;
 using Microsoft.Extensions.Configuration;
@@ -277,7 +278,7 @@ public class GitHubApi : IGitHubApi
                     .Select(node => new Language
                     {
                         Name = node.GetProperty("name").GetString()!,
-                        IconifyClass = LanguageIconMapper.GetIconifyClass(node.GetProperty("name").GetString()!)
+                        IconifyClass = LanguageIconMapper.GetIconifyIdentifier(node.GetProperty("name").GetString()!)
                     })]
             })];
 
