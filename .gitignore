@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/src/GitHubDataFetcher/bin
+/src/GitHubDataFetcher/obj
+/tests/GitHubDataFetcher.IntegrationTests/bin
+/tests/GitHubDataFetcher.IntegrationTests/obj
