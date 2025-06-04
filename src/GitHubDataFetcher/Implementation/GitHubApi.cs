@@ -174,7 +174,7 @@ public class GitHubApi : IGitHubApi
                     {
                         AvatarUrl = node.GetProperty("avatarUrl").GetString()!,
                         Url = node.GetProperty("url").GetString()!,
-                        Name = node.TryGetProperty("name", out var name) ? name.GetString() ?? string.Empty : string.Empty
+                        Name = node.TryGetProperty("name", out var name) ? name.GetString()! : string.Empty
                     })],
                 Repository = node.TryGetObject("repository", out var repository)
                     ? new Repository
