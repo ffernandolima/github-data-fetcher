@@ -18,7 +18,7 @@ public class GitHubJsonWriterTests
     public GitHubJsonWriterTests()
     {
         _configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection([new KeyValuePair<string, string>("OUTPUT_PATH", "/tmp")])
+            .AddInMemoryCollection([new KeyValuePair<string, string>("OUTPUT_PATH", "GitHubDataFetcher")])
             .Build();
 
         _githubApiMock = new Mock<IGitHubApi>();

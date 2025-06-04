@@ -10,7 +10,7 @@ namespace GitHubDataFetcher.Implementation;
 
 public class GitHubJsonWriter : IGitHubJsonWriter
 {
-    private readonly ILogger<GitHubJsonWriter> _logger;
+    private readonly ILogger _logger;
     private readonly IGitHubApi _githubApi;
     private readonly string _outputPath;
     private readonly JsonSerializerOptions _jsonOptions;
@@ -20,7 +20,7 @@ public class GitHubJsonWriter : IGitHubJsonWriter
         _logger = logger;
         _githubApi = githubApi;
         _outputPath = configuration["OUTPUT_PATH"]!;
-        _jsonOptions = new()
+        _jsonOptions = new JsonSerializerOptions
         {
             WriteIndented = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
